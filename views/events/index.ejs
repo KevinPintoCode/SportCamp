@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SportCamp Events</title>
+  </head>
+  <body>
+    <h1>Events</h1>
+    <div>
+      <button>
+        <a href="/events/new">Post a new Event</a>
+      </button>
+    </div>
+    <ul>
+      <% for(let event of events){ %>
+      <li><a href="/events/<%=event._id%>"><%= event.title %></a></li>
+      <% } %>
+    </ul>
+  </body>
+</html>

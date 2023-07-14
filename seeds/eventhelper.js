@@ -1,0 +1,33 @@
+export const descriptors = [
+  "Forest",
+  "Ancient",
+  "Petrified",
+  "Roaring",
+  "Cascade",
+  "Tumbling",
+  "Silent",
+  "Redwood",
+  "Grizzly",
+  "Ocean",
+  "Sea",
+  "Sky",
+  "Dusty",
+  "Diamond",
+];
+
+export const sports = [
+  "Football",
+  "Volleyball",
+  "Pingpong",
+  "Pool",
+  "Basketball",
+  "Baseball",
+  "Paintball",
+  "Handball",
+  "Biking",
+  "Swimming",
+  "Tennis",
+  "Padel",
+  "Running",
+  "Training",
+];

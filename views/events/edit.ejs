@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Event!</title>
+  </head>
+  <body>
+    <h1>Edit <%= event.title %> event</h1>
+
+    <form action="/events/<%=event._id%>?_method=PUT" method="POST">
+      <div>
+        <label for="name">Title</label>
+        <input
+          type="text"
+          id="name"
+          name="events[title]"
+          value="<%=event.title %>"
+        />
+      </div>
+      <div>
+        <label for="location">Location</label>
+        <input
+          type="text"
+          id="location"
+          name="events[location]"
+          value="<%=event.location %>"
+        />
+      </div>
+      <button>Save</button>
+    </form>
+    <form action="/events/<%=event._id%>?_method=DELETE" method="POST">
+      <button>DELETE</button>
+    </form>
+    <hr />
+    <footer>
+      <button><a href="/events">All Events</a></button>
+    </footer>
+  </body>
+</html>
