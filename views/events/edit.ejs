@@ -1,40 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Event!</title>
-  </head>
-  <body>
-    <h1>Edit <%= event.title %> event</h1>
-
-    <form action="/events/<%=event._id%>?_method=PUT" method="POST">
-      <div>
-        <label for="name">Title</label>
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center mb-3">Edit <%= event.title %> event</h1>
+  <div class="col-6 offset-3">
+    <form
+      class="mb-3"
+      action="/events/<%=event._id%>?_method=PUT"
+      method="POST"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="name">Title</label>
         <input
+          class="form-control"
           type="text"
           id="name"
           name="events[title]"
           value="<%=event.title %>"
         />
       </div>
-      <div>
-        <label for="location">Location</label>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
         <input
+          class="form-control"
           type="text"
           id="location"
           name="events[location]"
           value="<%=event.location %>"
         />
       </div>
-      <button>Save</button>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="events[description]"
+        >
+<%= event.description %></textarea
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input
+          class="form-control"
+          type="text"
+          id="image"
+          name="events[image]"
+          value="<%= event.image %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="players">Number of Players</label>
+        <input
+          class="form-select"
+          type="number"
+          id="players"
+          name="events[players]"
+          value="<%= event.players %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="start">Event date :</label>
+        <input
+          class="form-select"
+          type="date"
+          name="events[date]"
+          id="date"
+          value="<% event.date %>"
+          min="2023-01-01"
+          max="2050-01-01"
+        />
+      </div>
+      <button class="btn btn-warning">Update Event</button>
     </form>
     <form action="/events/<%=event._id%>?_method=DELETE" method="POST">
-      <button>DELETE</button>
+      <button class="btn btn-danger">DELETE</button>
     </form>
     <hr />
-    <footer>
-      <button><a href="/events">All Events</a></button>
-    </footer>
-  </body>
-</html>
+    <button class="btn btn-success">
+      <a href="/events">Back to Events</a>
+    </button>
+  </div>
+</div>

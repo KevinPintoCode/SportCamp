@@ -6,7 +6,9 @@ const EventSchema = new Schema({
   sport: String,
   description: String,
   location: String,
-  date: String,
+  date: Date,
+  players: Number,
+  image: String,
 });
 
 const Event = mongoose.model("Event", EventSchema);

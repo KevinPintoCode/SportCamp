@@ -1,17 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Event Details</title>
-  </head>
-  <body>
-    <h1><%= event.title %></h1>
-    <h2><%= event.location %></h2>
-    <button><a href="/events/<%=event._id%>/edit">Edit Event</a></button>
-    <hr />
-    <footer>
-      <button><a href="/events">All Events</a></button>
-    </footer>
-  </body>
-</html>
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card">
+      <img src="<%= event.image %>" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title"><%= event.title %></h5>
+        <p class="card-text"><%= event.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= event.players %> players</li>
+        <li class="list-group-item text-muted"><%= event.location %></li>
+        <li class="list-group-item">Date :<%= event.date %></li>
+      </ul>
+      <div class="card-body">
+        <a class="card-link btn btn-primary" href="/events/<%=event._id %>"
+          >Edit Event</a
+        >
+        <form
+          class="d-inline"
+          action="/events/<%=event._id%>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-danger">Delete event</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,27 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Make a new Event!</title>
-  </head>
-  <body>
-    <h1>Post a new event!</h1>
-
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">New Event</h1>
+  <div class="col-6 offset-3">
     <form action="/events" method="POST">
-      <div>
-        <label for="name">Title</label>
-        <input type="text" id="name" name="events[title]" />
+      <div class="mb-3">
+        <label class="form-label" for="name">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          id="name"
+          name="events[title]"
+        />
       </div>
-      <div>
-        <label for="location">Location</label>
-        <input type="text" id="location" name="events[location]" />
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input
+          class="form-control"
+          type="text"
+          id="location"
+          name="events[location]"
+        />
       </div>
-      <button>Add Event!</button>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="events[description]"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input
+          class="form-control"
+          type="text"
+          id="image"
+          name="events[image]"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="players">Number of Players</label>
+        <input
+          class="form-select"
+          type="number"
+          id="players"
+          name="events[players]"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="start">Event date :</label>
+        <input
+          class="form-select"
+          type="date"
+          name="events[date]"
+          id="date"
+          value="2023-01-01"
+          min="2023-01-01"
+          max="2050-01-01"
+        />
+      </div>
+      <button class="btn btn-success">Add Event!</button>
     </form>
     <hr />
-    <footer>
-      <button><a href="/events">All Events</a></button>
-    </footer>
-  </body>
-</html>
+    <button><a href="/events">All Events</a></button>
+  </div>
+</div>

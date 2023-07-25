@@ -1,21 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SportCamp Events</title>
-  </head>
-  <body>
-    <h1>Events</h1>
-    <div>
-      <button>
-        <a href="/events/new">Post a new Event</a>
-      </button>
+<% layout('layouts/boilerplate') %>
+<h1>Events</h1>
+<div>
+  <a class="btn btn-primary mb-3" href="/events/new">Post a new Event</a>
+</div>
+
+<% for(let event of events){ %>
+<div class="card" mb-3>
+  <div class="row">
+    <div class="col-md-4">
+      <img class="img-fluid" alt="" src="<%= event.image%>" />
     </div>
-    <ul>
-      <% for(let event of events){ %>
-      <li><a href="/events/<%=event._id%>"><%= event.title %></a></li>
-      <% } %>
-    </ul>
-  </body>
-</html>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= event.title %></h5>
+        <p class="card-text"><%= event.description %></p>
+        <p class="card-text">
+          <small class="text-muted"><%= event.location %></small>
+        </p>
+        <a class="btn btn-primary" href="/events/<%=event._id %>"
+          >Event details</a
+        >
+        <div class="card-text"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

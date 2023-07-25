@@ -15,14 +15,19 @@ mongoose
   });
 
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
-console.log(sample(descriptors));
 const seedDB = async () => {
   await Event.deleteMany({});
   for (let i = 0; i < 50; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
+    const randomPlayers = Math.floor(Math.random() * 22) + 2;
     const event = new Event({
       title: `${sample(descriptors)} ${sample(sports)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
+      image: "https://source.unsplash.com/collection/345761/800x600",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      date: "12/5/2023",
+      players: randomPlayers,
     });
     await event.save();
   }

@@ -3,6 +3,7 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 import express, { response } from "express";
 const app = express();
+import ejsMate from "ejs-mate";
 import path from "path";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
@@ -21,6 +22,7 @@ mongoose
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
+app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "/public")));
