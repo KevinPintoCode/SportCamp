@@ -59,7 +59,6 @@ app.post(
 app.get(
   "/events/:id",
   wrapAsync(async (req, res, next) => {
-    if (!req.body) throw new ExpressError();
     const event = await Event.findById(req.params.id);
     res.render("events/show", { event });
   })
