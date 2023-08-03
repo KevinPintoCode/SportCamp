@@ -8,6 +8,9 @@ import path from "path";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
 import Event from "./models/event.js";
+import wrapAsync from "./utilities/wrapAsync.js";
+import ExpressError from "./utilities/expressError.js";
+import Joi from "joi";
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/SportCamp")
@@ -32,43 +35,71 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/events", async (req, res) => {
-  const events = await Event.find({});
-  res.render("events/index", { events });
-});
+app.get(
+  "/events",
+  wrapAsync(async (req, res, next) => {
+    const events = await Event.find({});
+    res.render("events/index", { events });
+  })
+);
 
 app.get("/events/new", async (req, res) => {
   res.render("events/new");
 });
 
-app.post("/events", async (req, res) => {
-  const newEvent = new Event(req.body.events);
-  await newEvent.save();
-  res.redirect(`/events/${newEvent._id}`);
+app.post(
+  "/events",
+  wrapAsync(async (req, res, next) => {
+    const newEvent = new Event(req.body.events);
+    await newEvent.save();
+    res.redirect(`/events/${newEvent._id}`);
+  })
+);
+
+app.get(
+  "/events/:id",
+  wrapAsync(async (req, res, next) => {
+    if (!req.body) throw new ExpressError();
+    const event = await Event.findById(req.params.id);
+    res.render("events/show", { event });
+  })
+);
+
+app.get(
+  "/events/:id/edit",
+  wrapAsync(async (req, res, next) => {
+    const event = await Event.findById(req.params.id);
+    res.render("events/edit", { event });
+  })
+);
+
+app.put(
+  "/events/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const editEvent = await Event.findByIdAndUpdate(id, { ...req.body.events });
+    res.redirect(`/events/${editEvent._id}`);
+  })
+);
+
+app.delete(
+  "/events/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    await Event.findByIdAndDelete(id);
+    res.redirect("/events");
+  })
+);
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
 });
 
-app.get("/events/:id", async (req, res) => {
-  const event = await Event.findById(req.params.id);
-  res.render("events/show", { event });
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Oh no, Somethin went wrong";
+  res.status(statusCode).render("error.ejs", { err });
 });
-
-app.get("/events/:id/edit", async (req, res) => {
-  const event = await Event.findById(req.params.id);
-  res.render("events/edit", { event });
-});
-
-app.put("/events/:id", async (req, res) => {
-  const { id } = req.params;
-  const editEvent = await Event.findByIdAndUpdate(id, { ...req.body.events });
-  res.redirect(`/events/${editEvent._id}`);
-});
-
-app.delete("/events/:id", async (req, res) => {
-  const { id } = req.params;
-  await Event.findByIdAndDelete(id);
-  res.redirect("/events");
-});
-
 app.listen(3000, (req, res) => {
   console.log("Server Up");
 });

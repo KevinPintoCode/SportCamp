@@ -3,6 +3,8 @@
   <h1 class="text-center mb-3">Edit <%= event.title %> event</h1>
   <div class="col-6 offset-3">
     <form
+      novalidate
+      class="needs-validation"
       class="mb-3"
       action="/events/<%=event._id%>?_method=PUT"
       method="POST"
@@ -10,6 +12,7 @@
       <div class="mb-3">
         <label class="form-label" for="name">Title</label>
         <input
+          required
           class="form-control"
           type="text"
           id="name"
@@ -20,6 +23,7 @@
       <div class="mb-3">
         <label class="form-label" for="location">Location</label>
         <input
+          required
           class="form-control"
           type="text"
           id="location"
@@ -30,6 +34,7 @@
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
         <textarea
+          required
           class="form-control"
           type="text"
           id="description"
@@ -41,6 +46,7 @@
       <div class="mb-3">
         <label class="form-label" for="image">Image URL</label>
         <input
+          required
           class="form-control"
           type="text"
           id="image"
@@ -51,6 +57,7 @@
       <div class="mb-3">
         <label for="players">Number of Players</label>
         <input
+          required
           class="form-select"
           type="number"
           id="players"
@@ -61,6 +68,7 @@
       <div class="mb-3">
         <label for="start">Event date :</label>
         <input
+          required
           class="form-select"
           type="date"
           name="events[date]"

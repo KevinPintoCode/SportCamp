@@ -2,10 +2,11 @@
 <div class="row">
   <h1 class="text-center">New Event</h1>
   <div class="col-6 offset-3">
-    <form action="/events" method="POST">
+    <form action="/events" method="POST" novalidate class="needs-validation">
       <div class="mb-3">
         <label class="form-label" for="name">Title</label>
         <input
+          required
           class="form-control"
           type="text"
           id="name"
@@ -15,6 +16,7 @@
       <div class="mb-3">
         <label class="form-label" for="location">Location</label>
         <input
+          required
           class="form-control"
           type="text"
           id="location"
@@ -24,6 +26,7 @@
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
         <textarea
+          required
           class="form-control"
           type="text"
           id="description"
@@ -33,6 +36,8 @@
       <div class="mb-3">
         <label class="form-label" for="image">Image URL</label>
         <input
+          required
+          required
           class="form-control"
           type="text"
           id="image"
@@ -42,6 +47,7 @@
       <div class="mb-3">
         <label for="players">Number of Players</label>
         <input
+          required
           class="form-select"
           type="number"
           id="players"
@@ -51,9 +57,10 @@
       <div class="mb-3">
         <label for="start">Event date :</label>
         <input
+          required
           class="form-select"
           type="date"
-          name="events[date]"
+          name="event[date]"
           id="date"
           value="2023-01-01"
           min="2023-01-01"
