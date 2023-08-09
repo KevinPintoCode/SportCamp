@@ -1,12 +1,12 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
-  <h1 class="text-center mb-3">Edit <%= event.title %> event</h1>
+  <h1 class="text-center mb-3">Edit <%= sportground.title %> Sportground</h1>
   <div class="col-6 offset-3">
     <form
       novalidate
       class="needs-validation"
       class="mb-3"
-      action="/events/<%=event._id%>?_method=PUT"
+      action="/sportgrounds/<%=sportground._id%>?_method=PUT"
       method="POST"
     >
       <div class="mb-3">
@@ -16,8 +16,8 @@
           class="form-control"
           type="text"
           id="name"
-          name="events[title]"
-          value="<%=event.title %>"
+          name="sportgrounds[title]"
+          value="<%=sportground.title %>"
         />
       </div>
       <div class="mb-3">
@@ -27,8 +27,8 @@
           class="form-control"
           type="text"
           id="location"
-          name="events[location]"
-          value="<%=event.location %>"
+          name="sportgrounds[location]"
+          value="<%=sportground.location %>"
         />
       </div>
       <div class="mb-3">
@@ -38,9 +38,9 @@
           class="form-control"
           type="text"
           id="description"
-          name="events[description]"
+          name="sportgrounds[description]"
         >
-<%= event.description %></textarea
+<%= sportground.description %></textarea
         >
       </div>
       <div class="mb-3">
@@ -50,8 +50,8 @@
           class="form-control"
           type="text"
           id="image"
-          name="events[image]"
-          value="<%= event.image %>"
+          name="sportgrounds[image]"
+          value="<%= sportground.image %>"
         />
       </div>
       <div class="mb-3">
@@ -61,31 +61,23 @@
           class="form-select"
           type="number"
           id="players"
-          name="events[players]"
-          value="<%= event.players %>"
+          name="sportgrounds[players]"
+          value="<%= sportground.players %>"
         />
       </div>
-      <div class="mb-3">
-        <label for="start">Event date :</label>
-        <input
-          required
-          class="form-select"
-          type="date"
-          name="events[date]"
-          id="date"
-          value="<% event.date %>"
-          min="2023-01-01"
-          max="2050-01-01"
-        />
-      </div>
-      <button class="btn btn-warning">Update Event</button>
+      <button class="btn btn-warning mb-3">Update Sportground</button>
     </form>
-    <form action="/events/<%=event._id%>?_method=DELETE" method="POST">
+    <form
+      action="/sportgrounds/<%=sportground._id%>?_method=DELETE"
+      method="POST"
+    >
       <button class="btn btn-danger">DELETE</button>
     </form>
     <hr />
-    <button class="btn btn-success">
-      <a href="/events">Back to Events</a>
+    <button class="btn btn-info">
+      <a style="text-decoration: none" href="/sportgrounds"
+        >Back to Sportgrounds</a
+      >
     </button>
   </div>
 </div>

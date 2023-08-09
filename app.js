@@ -7,10 +7,10 @@ import ejsMate from "ejs-mate";
 import path from "path";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
-import Event from "./models/event.js";
+import Sportground from "./models/sportgrounds.js";
 import wrapAsync from "./utilities/wrapAsync.js";
 import ExpressError from "./utilities/expressError.js";
-import Joi from "joi";
+import Review from "./models/review.js";
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/SportCamp")
@@ -36,57 +36,83 @@ app.get("/", (req, res) => {
 });
 
 app.get(
-  "/events",
+  "/sportgrounds",
   wrapAsync(async (req, res, next) => {
-    const events = await Event.find({});
-    res.render("events/index", { events });
+    const sportgrounds = await Sportground.find({});
+    res.render("sportgrounds/index", { sportgrounds });
   })
 );
 
-app.get("/events/new", async (req, res) => {
-  res.render("events/new");
+app.get("/sportgrounds/new", async (req, res) => {
+  res.render("sportgrounds/new");
 });
 
 app.post(
-  "/events",
+  "/sportgrounds",
   wrapAsync(async (req, res, next) => {
-    const newEvent = new Event(req.body.events);
-    await newEvent.save();
-    res.redirect(`/events/${newEvent._id}`);
+    const newSportground = new Sportground(req.body.sportgrounds);
+    await newSportground.save();
+    res.redirect(`/sportgrounds/${newSportground._id}`);
   })
 );
 
 app.get(
-  "/events/:id",
+  "/sportgrounds/:id",
   wrapAsync(async (req, res, next) => {
-    const event = await Event.findById(req.params.id);
-    res.render("events/show", { event });
+    const sportground = await Sportground.findById(req.params.id).populate(
+      "reviews"
+    );
+    res.render("sportgrounds/show", { sportground });
   })
 );
 
 app.get(
-  "/events/:id/edit",
+  "/sportgrounds/:id/edit",
   wrapAsync(async (req, res, next) => {
-    const event = await Event.findById(req.params.id);
-    res.render("events/edit", { event });
+    const sportground = await Sportground.findById(req.params.id);
+    res.render("sportgrounds/edit", { sportground });
   })
 );
 
 app.put(
-  "/events/:id",
+  "/sportgrounds/:id",
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    const editEvent = await Event.findByIdAndUpdate(id, { ...req.body.events });
-    res.redirect(`/events/${editEvent._id}`);
+    const editSportground = await Sportground.findByIdAndUpdate(id, {
+      ...req.body.sportgrounds,
+    });
+    res.redirect(`/sportgrounds/${editSportground._id}`);
   })
 );
 
 app.delete(
-  "/events/:id",
+  "/sportgrounds/:id",
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    await Event.findByIdAndDelete(id);
-    res.redirect("/events");
+    await Sportground.findByIdAndDelete(id);
+    res.redirect("/sportgrounds");
+  })
+);
+
+app.post(
+  "/sportgrounds/:id/reviews",
+  wrapAsync(async (req, res) => {
+    const sportground = await Sportground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    sportground.reviews.push(review);
+    await review.save();
+    await sportground.save();
+    res.redirect(`/sportgrounds/${sportground._id}`);
+  })
+);
+
+app.delete(
+  "/sportgrounds/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Sportground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/sportgrounds/${id}`);
   })
 );
 

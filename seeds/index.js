@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Event from "../models/event.js";
+import Sportground from "../models/sportgrounds.js";
 import { sports } from "./eventhelper.js";
 import { descriptors } from "./eventhelper.js";
 import { cities } from "./cities.js";
@@ -16,11 +16,11 @@ mongoose
 
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 const seedDB = async () => {
-  await Event.deleteMany({});
+  await Sportground.deleteMany({});
   for (let i = 0; i < 50; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const randomPlayers = Math.floor(Math.random() * 22) + 2;
-    const event = new Event({
+    const sportground = new Sportground({
       title: `${sample(descriptors)} ${sample(sports)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       image: "https://source.unsplash.com/collection/345761/800x600",
@@ -29,7 +29,7 @@ const seedDB = async () => {
       date: "12/5/2023",
       players: randomPlayers,
     });
-    await event.save();
+    await sportground.save();
   }
 };
 

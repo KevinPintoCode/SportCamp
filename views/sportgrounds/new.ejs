@@ -1,8 +1,13 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
-  <h1 class="text-center">New Event</h1>
+  <h1 class="text-center">New Sportground</h1>
   <div class="col-6 offset-3">
-    <form action="/events" method="POST" novalidate class="needs-validation">
+    <form
+      action="/sportgrounds"
+      method="POST"
+      novalidate
+      class="needs-validation"
+    >
       <div class="mb-3">
         <label class="form-label" for="name">Title</label>
         <input
@@ -10,7 +15,7 @@
           class="form-control"
           type="text"
           id="name"
-          name="events[title]"
+          name="sportgrounds[title]"
         />
       </div>
       <div class="mb-3">
@@ -20,7 +25,31 @@
           class="form-control"
           type="text"
           id="location"
-          name="events[location]"
+          name="sportgrounds[location]"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input
+          required
+          class="form-control"
+          type="text"
+          id="image"
+          name="sportgrounds[image]"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="players">Number of Players</label>
+        <div class="mb-3 input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">@</div>
+          </div>
+        <input
+          required
+          class="form-select"
+          type="number"
+          id="players"
+          name="sportgrounds[players]"
         />
       </div>
       <div class="mb-3">
@@ -30,46 +59,12 @@
           class="form-control"
           type="text"
           id="description"
-          name="events[description]"
+          name="sportgrounds[description]"
         ></textarea>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="image">Image URL</label>
-        <input
-          required
-          required
-          class="form-control"
-          type="text"
-          id="image"
-          name="events[image]"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="players">Number of Players</label>
-        <input
-          required
-          class="form-select"
-          type="number"
-          id="players"
-          name="events[players]"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="start">Event date :</label>
-        <input
-          required
-          class="form-select"
-          type="date"
-          name="event[date]"
-          id="date"
-          value="2023-01-01"
-          min="2023-01-01"
-          max="2050-01-01"
-        />
-      </div>
-      <button class="btn btn-success">Add Event!</button>
+      <button class="btn btn-success">Add Sportground!</button>
     </form>
     <hr />
-    <button><a href="/events">All Events</a></button>
+    <button><a href="/sportgrounds">All Sportgrounds</a></button>
   </div>
 </div>
