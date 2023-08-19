@@ -3,40 +3,16 @@ import wrapAsync from "../utilities/wrapAsync.js";
 import ExpressError from "../utilities/expressError.js";
 import User from "../models/users.js";
 import passport from "passport";
-import { storeReturnTo } from "../utilities/isLoggedIn.js";
-import { isLoggedIn } from "../utilities/isLoggedIn.js";
+import { storeReturnTo, isLoggedIn } from "../utilities/middleware.js";
+import controllers from "../controllers/sportgrounds.js";
 
 const router = express.Router({ mergeParams: true });
 
-router.get(
-  "/register",
-  wrapAsync(async (req, res) => {
-    res.render("users/register");
-  })
-);
+router.get("/register", wrapAsync(controllers.registerForm));
 
-router.post(
-  "/register",
-  wrapAsync(async (req, res, next) => {
-    try {
-      const { email, username, password } = req.body;
-      const user = new User({ email, username });
-      const registeredUser = await User.register(user, password);
-      req.login(registeredUser, (err) => {
-        if (err) return next();
-        req.flash("success", "Welcome to Sportground!");
-        res.redirect("/sportgrounds");
-      });
-    } catch (e) {
-      req.flash("error", e.message);
-      res.redirect("/register");
-    }
-  })
-);
+router.post("/register", wrapAsync(controllers.register));
 
-router.get("/login", (req, res) => {
-  res.render("users/login");
-});
+router.get("/login", wrapAsync(controllers.loginForm));
 
 router.post(
   "/login",
@@ -45,22 +21,9 @@ router.post(
     failureFlash: true,
     failureRedirect: "/login",
   }),
-  (req, res) => {
-    req.flash("success", "Welcome back!");
-    const redirectUrl = res.locals.returnTo || "/sportgrounds";
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
-  }
+  wrapAsync(controllers.login)
 );
 
-router.get("/logout", async (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    req.flash("success", "You have signed out!");
-    res.redirect("/sportgrounds");
-  });
-});
+router.get("/logout", wrapAsync(controllers.logout));
 
 export default router;

@@ -9,6 +9,10 @@ const SportgroundSchema = new Schema({
   location: String,
   players: Number,
   image: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,

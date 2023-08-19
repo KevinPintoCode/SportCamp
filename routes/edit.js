@@ -3,34 +3,13 @@ import wrapAsync from "../utilities/wrapAsync.js";
 import Sportground from "../models/sportgrounds.js";
 import ExpressError from "../utilities/expressError.js";
 import Review from "../models/reviews.js";
-import { isLoggedIn } from "../utilities/isLoggedIn.js";
+import { isAuthor, isLoggedIn } from "../utilities/middleware.js";
+import controllers from "../controllers/sportgrounds.js";
 
 const router = express.Router({ mergeParams: true });
 
-router.get(
-  "/edit",
-  isLoggedIn,
-  wrapAsync(async (req, res, next) => {
-    const sportground = await Sportground.findById(req.params.id);
-    if (!sportground) {
-      req.flash("error", "Cannot find that Sportground!");
-      return res.redirect("/sportgrounds");
-    }
-    res.render("sportgrounds/edit", { sportground });
-  })
-);
+router.get("/edit", isLoggedIn, isAuthor, wrapAsync(controllers.editForm));
 
-router.put(
-  "/",
-  isLoggedIn,
-  wrapAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const sportground = await Sportground.findByIdAndUpdate(id, {
-      ...req.body.sportgrounds,
-    });
-    req.flash("success", "Succesfully updated Sportground!");
-    res.redirect(`/sportgrounds/${sportground._id}`);
-  })
-);
+router.put("/", isLoggedIn, isAuthor, wrapAsync(controllers.updateForm));
 
 export default router;

@@ -3,56 +3,24 @@ import wrapAsync from "../utilities/wrapAsync.js";
 import Sportground from "../models/sportgrounds.js";
 import ExpressError from "../utilities/expressError.js";
 import Review from "../models/reviews.js";
-import { isLoggedIn } from "../utilities/isLoggedIn.js";
+import { isAuthor, isLoggedIn } from "../utilities/middleware.js";
+import controllers from "../controllers/sportgrounds.js";
 
 const router = express.Router({ mergeParams: true });
 
-router.get(
-  "/",
-  wrapAsync(async (req, res, next) => {
-    const sportgrounds = await Sportground.find({});
-    res.render("sportgrounds/index", { sportgrounds });
-  })
-);
+router.get("/", wrapAsync(controllers.showpage));
 
-router.get("/new", isLoggedIn, async (req, res) => {
-  res.render("sportgrounds/new");
-});
+router.get("/new", isLoggedIn, wrapAsync(controllers.newSportgroundForm));
 
-router.post(
-  "/",
-  isLoggedIn,
-  wrapAsync(async (req, res, next) => {
-    const newSportground = new Sportground(req.body.sportgrounds);
-    await newSportground.save();
-    req.flash("success", "Successfully register a new Sportground!");
-    res.redirect(`/sportgrounds/${newSportground._id}`);
-  })
-);
+router.post("/", isLoggedIn, wrapAsync(controllers.newSportground));
 
-router.get(
-  "/:id",
-  wrapAsync(async (req, res, next) => {
-    const sportground = await Sportground.findById(req.params.id).populate(
-      "reviews"
-    );
-    if (!sportground) {
-      req.flash("error", "Cannot find that Sportground!");
-      return res.redirect("/sportgrounds");
-    }
-    res.render("sportgrounds/show", { sportground });
-  })
-);
+router.get("/:id", wrapAsync(controllers.showSportground));
 
 router.delete(
   "/:id",
   isLoggedIn,
-  wrapAsync(async (req, res, next) => {
-    const { id } = req.params;
-    await Sportground.findByIdAndDelete(id);
-    req.flash("success", "Sportground deleted!");
-    res.redirect("/sportgrounds");
-  })
+  isAuthor,
+  wrapAsync(controllers.deleteSportground)
 );
 
 export default router;

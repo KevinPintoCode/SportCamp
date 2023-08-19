@@ -21,6 +21,7 @@ const seedDB = async () => {
     const random1000 = Math.floor(Math.random() * 1000);
     const randomPlayers = Math.floor(Math.random() * 22) + 2;
     const sportground = new Sportground({
+      author: "64dfc9887e9afde36ce87a57",
       title: `${sample(descriptors)} ${sample(sports)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       image: "https://source.unsplash.com/collection/345761/800x600",
