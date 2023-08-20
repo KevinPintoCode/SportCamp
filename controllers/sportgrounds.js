@@ -1,22 +1,28 @@
 import Sportground from "../models/sportgrounds.js";
 import Review from "../models/reviews.js";
+import User from "../models/users.js";
+import { cloudinary } from "../cloudinary/index.js";
 
 const controllers = {
   //Sportgrounds showpage, details and new
   ///////////////////////////////////////
   showpage: async (req, res, next) => {
-    const sportgrounds = await Sportground.find({});
-    res.render("sportgrounds/index", { sportgrounds });
+    const sportground = await Sportground.find({});
+    res.render("sportgrounds/index", { sportground });
   },
   newSportgroundForm: async (req, res) => {
     res.render("sportgrounds/new");
   },
   newSportground: async (req, res, next) => {
-    const newSportground = new Sportground(req.body.sportgrounds);
-    newSportground.author = req.user._id;
-    await newSportground.save();
+    const sportground = new Sportground(req.body.sportgrounds);
+    sportground.images = req.files.map((f) => ({
+      url: f.path,
+      filename: f.filename,
+    }));
+    sportground.author = req.user._id;
+    await sportground.save();
     req.flash("success", "Successfully register a new Sportground!");
-    res.redirect(`/sportgrounds/${newSportground._id}`);
+    res.redirect(`/sportgrounds/${sportground._id}`);
   },
   showSportground: async (req, res, next) => {
     const sportground = await Sportground.findById(req.params.id)
@@ -39,7 +45,7 @@ const controllers = {
     req.flash("success", "Sportground deleted!");
     res.redirect("/sportgrounds");
   },
-  //Edit and Review
+  //Edit, review and update
   ///////////////////////////////////////
   editForm: async (req, res, next) => {
     const sportground = await Sportground.findById(req.params.id);
@@ -54,6 +60,20 @@ const controllers = {
     const sportground = await Sportground.findByIdAndUpdate(id, {
       ...req.body.sportgrounds,
     });
+    const imgs = req.files.map((f) => ({
+      url: f.path,
+      filename: f.filename,
+    }));
+    sportground.images.push(...imgs);
+    await sportground.save();
+    if (req.body.deleteImages) {
+      for (let filename of req.body.deleteImages) {
+        await cloudinary.uploader.destroy(filename);
+      }
+      await sportground.updateOne({
+        $pull: { images: { filename: { $in: req.body.deleteImages } } },
+      });
+    }
     req.flash("success", "Succesfully updated Sportground!");
     res.redirect(`/sportgrounds/${sportground._id}`);
   },

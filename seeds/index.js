@@ -24,7 +24,20 @@ const seedDB = async () => {
       author: "64dfc9887e9afde36ce87a57",
       title: `${sample(descriptors)} ${sample(sports)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
-      image: "https://source.unsplash.com/collection/345761/800x600",
+      images: [
+        {
+          filename: "Sportground/ge1bl0dd3coqgekj6vxv",
+          url: "https://res.cloudinary.com/dvkarqghn/image/upload/v1692546216/Sportground/ge1bl0dd3coqgekj6vxv.jpg",
+        },
+        {
+          filename: "Sportground/erericf8dvmmt0tbjctr",
+          url: "https://res.cloudinary.com/dvkarqghn/image/upload/v1692546217/Sportground/erericf8dvmmt0tbjctr.jpg",
+        },
+        {
+          filename: "Sportground/ptqsiwlpoumufmbtmezr",
+          url: "https://res.cloudinary.com/dvkarqghn/image/upload/v1692546218/Sportground/ptqsiwlpoumufmbtmezr.jpg",
+        },
+      ],
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       date: "12/5/2023",

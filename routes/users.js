@@ -1,7 +1,5 @@
 import express from "express";
 import wrapAsync from "../utilities/wrapAsync.js";
-import ExpressError from "../utilities/expressError.js";
-import User from "../models/users.js";
 import passport from "passport";
 import { storeReturnTo, isLoggedIn } from "../utilities/middleware.js";
 import controllers from "../controllers/sportgrounds.js";

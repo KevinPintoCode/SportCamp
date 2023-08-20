@@ -1,3 +1,4 @@
+import "dotenv/config";
 //Dependencies Config
 import * as url from "url";
 const __filename = url.fileURLToPath(import.meta.url);

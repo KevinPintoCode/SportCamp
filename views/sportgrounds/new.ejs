@@ -7,6 +7,7 @@
       method="POST"
       novalidate
       class="needs-validation"
+      enctype="multipart/form-data"
     >
       <div class="mb-3">
         <label class="form-label" for="name">Title</label>
@@ -28,22 +29,19 @@
           name="sportgrounds[location]"
         />
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="image">Image URL</label>
+      <div>
+        <label class="form-label" for="image">Images</label>
         <input
           required
-          class="form-control"
-          type="text"
+          class="form-control mb-3"
+          type="file"
+          name="image"
           id="image"
-          name="sportgrounds[image]"
+          multiple
         />
       </div>
-      <div class="mb-3">
-        <label for="players">Number of Players</label>
-        <div class="mb-3 input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">@</div>
-          </div>
+      <label for="players">Players</label>
+      <div class="mb-3 input-group">
         <input
           required
           class="form-select"
@@ -62,9 +60,15 @@
           name="sportgrounds[description]"
         ></textarea>
       </div>
-      <button class="btn btn-success">Add Sportground!</button>
+      <button class="btn btn-success">Add Sportground</button>
     </form>
     <hr />
-    <button class="btn btn-info"><a style="text-decoration: none" href="/sportgrounds">All Sportgrounds</a></button>
+    <a
+      style="text-decoration: none"
+      class="btn btn-success"
+      role="button"
+      href="/sportgrounds"
+      >All Sportgrounds</a
+    >
   </div>
 </div>

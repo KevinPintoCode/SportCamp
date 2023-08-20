@@ -2,13 +2,20 @@ import mongoose from "mongoose";
 import Review from "./reviews.js";
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+  filename: String,
+  url: String,
+});
+ImageSchema.virtual("thumbnail").get(function () {
+  return this.url.replace("/upload", "/upload/w_200");
+});
 const SportgroundSchema = new Schema({
   title: String,
   sport: String,
   description: String,
   location: String,
   players: Number,
-  image: String,
+  images: [ImageSchema],
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
