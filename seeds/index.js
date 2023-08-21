@@ -18,12 +18,19 @@ const sample = (array) => array[Math.floor(Math.random() * array.length)];
 const seedDB = async () => {
   await Sportground.deleteMany({});
   for (let i = 0; i < 50; i++) {
-    const random1000 = Math.floor(Math.random() * 1000);
+    const random1000 = Math.floor(Math.random() * 19);
     const randomPlayers = Math.floor(Math.random() * 22) + 2;
     const sportground = new Sportground({
       author: "64dfc9887e9afde36ce87a57",
       title: `${sample(descriptors)} ${sample(sports)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
+      geometry: {
+        type: "Point",
+        coordinates: [
+          cities[random1000].longitude,
+          cities[random1000].latitude,
+        ],
+      },
       images: [
         {
           filename: "Sportground/ge1bl0dd3coqgekj6vxv",

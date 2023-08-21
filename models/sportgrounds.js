@@ -7,13 +7,24 @@ const ImageSchema = new Schema({
   url: String,
 });
 ImageSchema.virtual("thumbnail").get(function () {
-  return this.url.replace("/upload", "/upload/w_200");
+  return this.url.replace("/upload", "/upload/w_200,h_180");
 });
 const SportgroundSchema = new Schema({
   title: String,
   sport: String,
   description: String,
   location: String,
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
   players: Number,
   images: [ImageSchema],
   author: {

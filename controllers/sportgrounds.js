@@ -2,6 +2,9 @@ import Sportground from "../models/sportgrounds.js";
 import Review from "../models/reviews.js";
 import User from "../models/users.js";
 import { cloudinary } from "../cloudinary/index.js";
+const mbxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mbxToken });
+import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
 
 const controllers = {
   //Sportgrounds showpage, details and new
@@ -14,13 +17,21 @@ const controllers = {
     res.render("sportgrounds/new");
   },
   newSportground: async (req, res, next) => {
+    const geoData = await geocoder
+      .forwardGeocode({
+        query: req.body.sportgrounds.location,
+        limit: 1,
+      })
+      .send();
     const sportground = new Sportground(req.body.sportgrounds);
+    sportground.geometry = geoData.body.features[0].geometry;
     sportground.images = req.files.map((f) => ({
       url: f.path,
       filename: f.filename,
     }));
     sportground.author = req.user._id;
     await sportground.save();
+    console.log(sportground);
     req.flash("success", "Successfully register a new Sportground!");
     res.redirect(`/sportgrounds/${sportground._id}`);
   },

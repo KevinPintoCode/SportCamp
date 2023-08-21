@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<div id="map" style="width: 100%; height: 500px"></div>
 <h1>Sportgrounds</h1>
 <div>
   <a class="btn btn-primary mb-3" href="/sportgrounds/new"
@@ -9,7 +10,15 @@
 <div class="card" mb-3>
   <div class="row">
     <div class="col-md-4">
+      <% if (sportgrounds.images.length){ %>
       <img class="img-fluid" alt="" src="<%= sportgrounds.images[0].url%>" />
+      <% } else {%>
+      <img
+        class="img-fluid"
+        alt=""
+        src="https://res.cloudinary.com/dvkarqghn/image/upload/v1692638350/Sportground/tzbjmjbrthpeji3b6fkx.jpg"
+      />
+      <% } %>
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -27,3 +36,8 @@
   </div>
 </div>
 <% } %>
+<script>
+  const mapToken = "<%-process.env.MAPBOX_TOKEN %>";
+  const sportground = {features: <%- JSON.stringify(sportground) %>}
+</script>
+<script src="/javascripts/clustermap.js"></script>

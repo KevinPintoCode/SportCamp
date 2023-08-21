@@ -64,6 +64,7 @@
     </div>
   </div>
   <div class="col-6">
+    <div id="map" class="mb-3" style="width: 400px; height: 300px"></div>
     <h2 class="">Sportground Reviews</h2>
     <hr />
     <% if(currentUser){ %>
@@ -156,3 +157,9 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const sportground = <%- JSON.stringify(sportground) %>
+  const mapToken = "<%-process.env.MAPBOX_TOKEN %>";
+</script>
+<script src="/javascripts/showPageMap.js"></script>
