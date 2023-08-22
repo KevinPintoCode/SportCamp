@@ -59,7 +59,25 @@ export const cities = [
     longitude: 11.116954,
     state: "Viken",
   },
-  // Add more cities here...
+  // ... Previous cities ...
+  {
+    city: "Kristiansund",
+    latitude: 63.1114688,
+    longitude: 7.7328842,
+    state: "Møre og Romsdal",
+  },
+  {
+    city: "Halden",
+    latitude: 59.1306289,
+    longitude: 11.3878872,
+    state: "Viken",
+  },
+  {
+    city: "Harstad",
+    latitude: 68.8028725,
+    longitude: 16.5449712,
+    state: "Troms og Finnmark",
+  },
   {
     city: "Molde",
     latitude: 62.7374619,
@@ -121,5 +139,3 @@ export const cities = [
     state: "Nordland",
   },
 ];
-
-// Add more cities as needed

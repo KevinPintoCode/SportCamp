@@ -6,37 +6,48 @@ const ImageSchema = new Schema({
   filename: String,
   url: String,
 });
+
 ImageSchema.virtual("thumbnail").get(function () {
   return this.url.replace("/upload", "/upload/w_200,h_180");
 });
-const SportgroundSchema = new Schema({
-  title: String,
-  sport: String,
-  description: String,
-  location: String,
-  geometry: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
+
+const opts = { toJSON: { virtuals: true } };
+
+const SportgroundSchema = new Schema(
+  {
+    title: String,
+    sport: String,
+    description: String,
+    location: String,
+    geometry: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
     },
-    coordinates: {
-      type: [Number],
-      required: true,
-    },
-  },
-  players: Number,
-  images: [ImageSchema],
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-  reviews: [
-    {
+    players: Number,
+    images: [ImageSchema],
+    author: {
       type: Schema.Types.ObjectId,
-      ref: "Review",
+      ref: "User",
     },
-  ],
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+  },
+  opts
+);
+
+SportgroundSchema.virtual("properties.popUpMarkup").get(function () {
+  return `<strong><a href="/sportgrounds/${this._id}">${this.title}</a></strong>`;
 });
 
 SportgroundSchema.post("findOneAndDelete", async function (doc) {
@@ -48,6 +59,7 @@ SportgroundSchema.post("findOneAndDelete", async function (doc) {
     });
   }
 });
+
 const Sportground = mongoose.model("Sportground", SportgroundSchema);
 
 export default Sportground;

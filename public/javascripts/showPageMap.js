@@ -6,6 +6,8 @@ const map = new mapboxgl.Map({
   zoom: 13,
 });
 
+map.addControl(new mapboxgl.NavigationControl());
+
 const marker = new mapboxgl.Marker()
   .setLngLat(sportground.geometry.coordinates)
   .setPopup(

@@ -28,6 +28,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use(express.static("public"));
 
 //Session
 const sessionConfig = {
