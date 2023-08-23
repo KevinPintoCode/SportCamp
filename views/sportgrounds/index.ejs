@@ -9,9 +9,15 @@
     <div class="row">
       <div class="col-md-4">
         <% if (sportgrounds.images.length){ %>
-        <img class="img-fluid" alt="" src="<%= sportgrounds.images[0].url%>" />
+        <img
+          crossorigin="anonymous"
+          class="img-fluid"
+          alt=""
+          src="<%= sportgrounds.images[0].url%>"
+        />
         <% } else {%>
         <img
+          crossorigin="anonymous"
           class="img-fluid"
           alt=""
           src="https://res.cloudinary.com/dvkarqghn/image/upload/v1692638350/Sportground/tzbjmjbrthpeji3b6fkx.jpg"

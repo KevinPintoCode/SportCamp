@@ -13,6 +13,8 @@ import session from "express-session";
 import flash from "connect-flash";
 import passport from "passport";
 import LocalStrategy from "passport-local";
+import mongoSanitize from "express-mongo-sanitize";
+import sanitizeHtml from "sanitize-html";
 
 //Models
 import Sportground from "./models/sportgrounds.js";
@@ -29,14 +31,43 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride("_method"));
 app.use(flash());
 app.use(express.static("public"));
+app.use(mongoSanitize());
+
+//Helmet
+
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://api.mapbox.com/",
+  "https://kit.fontawesome.com/",
+  "https://cdnjs.cloudflare.com/",
+  "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com/",
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.mapbox.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://fonts.googleapis.com/",
+  "https://use.fontawesome.com/",
+];
+const connectSrcUrls = [
+  "https://api.mapbox.com/",
+  "https://a.tiles.mapbox.com/",
+  "https://b.tiles.mapbox.com/",
+  "https://events.mapbox.com/",
+];
+const fontSrcUrls = [];
 
 //Session
 const sessionConfig = {
+  name: "Sportgrounds",
   secret: "cuqui",
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    //secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: +1000 * 60 * 60 * 24 * 7,
   },
