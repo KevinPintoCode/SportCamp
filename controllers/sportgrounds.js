@@ -31,7 +31,6 @@ const controllers = {
     }));
     sportground.author = req.user._id;
     await sportground.save();
-    console.log(sportground);
     req.flash("success", "Successfully register a new Sportground!");
     res.redirect(`/sportgrounds/${sportground._id}`);
   },

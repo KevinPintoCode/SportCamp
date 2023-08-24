@@ -15,6 +15,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import mongoSanitize from "express-mongo-sanitize";
 import sanitizeHtml from "sanitize-html";
+import MongoStore from "connect-mongo";
 
 //Models
 import Sportground from "./models/sportgrounds.js";
@@ -33,34 +34,34 @@ app.use(flash());
 app.use(express.static("public"));
 app.use(mongoSanitize());
 
-//Helmet
+//Moongoose
+//MONGODB_DB: const dbUrl = process.env.DB_URL;
+//LOCAL DEVELOPMENT DB: "mongodb://127.0.0.1:27017/SportCamp"
+const dbUrl = "mongodb://127.0.0.1:27017/SportCamp";
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "cuqui",
+  },
+});
 
-const scriptSrcUrls = [
-  "https://stackpath.bootstrapcdn.com/",
-  "https://api.tiles.mapbox.com/",
-  "https://api.mapbox.com/",
-  "https://kit.fontawesome.com/",
-  "https://cdnjs.cloudflare.com/",
-  "https://cdn.jsdelivr.net",
-];
-const styleSrcUrls = [
-  "https://kit-free.fontawesome.com/",
-  "https://stackpath.bootstrapcdn.com/",
-  "https://api.mapbox.com/",
-  "https://api.tiles.mapbox.com/",
-  "https://fonts.googleapis.com/",
-  "https://use.fontawesome.com/",
-];
-const connectSrcUrls = [
-  "https://api.mapbox.com/",
-  "https://a.tiles.mapbox.com/",
-  "https://b.tiles.mapbox.com/",
-  "https://events.mapbox.com/",
-];
-const fontSrcUrls = [];
+store.on("error", function (e) {
+  console.log("Session Store Error", e);
+});
+mongoose
+  .connect(dbUrl)
+  .then(() => {
+    console.log("Connection open.");
+  })
+  .catch((err) => {
+    console.log("error");
+    console.log(err);
+  });
 
 //Session
 const sessionConfig = {
+  store,
   name: "Sportgrounds",
   secret: "cuqui",
   resave: false,
@@ -97,17 +98,6 @@ import sportgroundsRoutes from "./routes/sportground.js";
 import reviewsRoutes from "./routes/reviews.js";
 import editRoutes from "./routes/edit.js";
 import usersRoutes from "./routes/users.js";
-
-//Moongoose
-mongoose
-  .connect("mongodb://127.0.0.1:27017/SportCamp")
-  .then(() => {
-    console.log("connection open.");
-  })
-  .catch((err) => {
-    console.log("error");
-    console.log(err);
-  });
 
 //Routes use
 app.use("/sportgrounds", sportgroundsRoutes);
