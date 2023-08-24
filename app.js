@@ -82,7 +82,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //Functions and Utilities
-import ExpressError from "./utilities/expressError.js";
+import ExpressError from "./utilities/ExpressError.js";
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
