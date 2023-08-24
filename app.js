@@ -4,7 +4,6 @@ import * as url from "url";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 import express, { response } from "express";
-const app = express();
 import ejsMate from "ejs-mate";
 import path from "path";
 import mongoose from "mongoose";
@@ -14,11 +13,36 @@ import flash from "connect-flash";
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import mongoSanitize from "express-mongo-sanitize";
-
 import MongoStore from "connect-mongo";
 
 //Models
 import User from "./models/users.js";
+
+//MongoDB
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/SportCamp";
+
+mongoose
+  .connect(dbUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log("Connection open.");
+  })
+  .catch((err) => {
+    console.log("error");
+    console.log(err);
+  });
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+  console.log("Database connected");
+});
+
+const app = express();
 
 //App.use config
 app.engine("ejs", ejsMate);
@@ -28,14 +52,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride("_method"));
-app.use(flash());
 app.use(express.static("public"));
 app.use(mongoSanitize());
 
-//Moongoose
-//MONGODB_DB: const dbUrl = process.env.DB_URL;
-//LOCAL DEVELOPMENT DB: "mongodb://127.0.0.1:27017/SportCamp"
-const dbUrl = process.env.DB_URL;
+const secret = process.env.SECRET || "cuqui";
+
+//Session
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   touchAfter: 24 * 60 * 60,
@@ -47,21 +69,11 @@ const store = MongoStore.create({
 store.on("error", function (e) {
   console.log("Session Store Error", e);
 });
-mongoose
-  .connect(dbUrl)
-  .then(() => {
-    console.log("Connection open.");
-  })
-  .catch((err) => {
-    console.log("error");
-    console.log(err);
-  });
 
-//Session
 const sessionConfig = {
   store,
   name: "Sportgrounds",
-  secret: "cuqui",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -72,6 +84,7 @@ const sessionConfig = {
   },
 };
 app.use(session(sessionConfig));
+app.use(flash());
 
 //Passport(Need to be done after session)
 app.use(passport.initialize());
