@@ -14,12 +14,10 @@ import flash from "connect-flash";
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import mongoSanitize from "express-mongo-sanitize";
-import sanitizeHtml from "sanitize-html";
+
 import MongoStore from "connect-mongo";
 
 //Models
-import Sportground from "./models/sportgrounds.js";
-import Review from "./models/reviews.js";
 import User from "./models/users.js";
 
 //App.use config
@@ -84,8 +82,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //Functions and Utilities
-import wrapAsync from "./utilities/wrapAsync.js";
-import ExpressError from "./utilities/expressError.js";
+import ExpressError from "./utilities/ExpressError.js";
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
