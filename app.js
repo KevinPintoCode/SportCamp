@@ -35,7 +35,7 @@ app.use(mongoSanitize());
 //Moongoose
 //MONGODB_DB: const dbUrl = process.env.DB_URL;
 //LOCAL DEVELOPMENT DB: "mongodb://127.0.0.1:27017/SportCamp"
-const dbUrl = "mongodb://127.0.0.1:27017/SportCamp";
+const dbUrl = process.env.DB_URL;
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   touchAfter: 24 * 60 * 60,
