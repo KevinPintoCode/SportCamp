@@ -15,6 +15,7 @@ import LocalStrategy from "passport-local";
 import mongoSanitize from "express-mongo-sanitize";
 import MongoStore from "connect-mongo";
 
+
 //Models
 import User from "./models/users.js";
 
@@ -73,7 +74,11 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+<<<<<<< HEAD
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7 * 100,
+=======
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+>>>>>>> e450ac27d2e84d0a5d9b4a3b8c39c601f68ae245
     maxAge: +1000 * 60 * 60 * 24 * 7,
   },
 };
